@@ -4,17 +4,60 @@ spells = {"missile": (53, 4, 0, None), "drain": (73, 2, 2, None), "shield": (113
 effects = {"shield": (6, 7, 0, 0), "poison": (6, 0, 3, 0), "recharge": (5, 0, 0, 101)}
 hp = 50
 mana = 500
-boss = {}
-current_effects = []
 
-#TODO: REWRITE USING OBJECTS
+#The player
+class Player(object):
+    def __init__(self, hp, mana):
+        self.spells =  makeSpells()
+        self.hp = hp
+        self.mana = mana
+        self.armor = 0
+        self.current_effects = []
+
+    #Returns a boolean:
+    #   False if the player loses/dies this turn
+    #   True otherwise
+    def takeTurn(self, boss):
+        if not self.hasMana():
+            return False
+
+
+
+    def hasMana(self):
+        return self.mana > 0
+
+#The player's enemy
+class Boss(object):
+    def __init__(self, hp = 0, attack = 0):
+        self.hp = hp
+        self.attack = attack
+
+
+#Effects last for multiple turns and can affect the player or boss
+class Effect(object):
+    pass
+
+#A spell can be cast by the player
+class Spell(object):
+    pass
+
+#Represents a turn to be taken. Either by the player or boss
+class Turn(object):
+    pass        
+
+#Decision tree. Minimizes mana cost while still winning
+class TurnTree(object):
+    pass
 
 def main():
-    global boss
+    boss = Boss()
     with open("input22.txt") as f:
         for line in f:
             line = line.split(":")
-            boss[line[0].strip()] = int(line[1].strip())
+            if line[0].strip() == "Hit Points":
+                boss.hp = int(line[1].strip())
+            if line[0].strip() == "Damage":
+                boss.attack = int(line[1].strip())
 
     spells_list, cost, win = takeTurn(hp, mana, [], 0, boss["Hit Points"], "p")
     print("Part 1: %d" % cost)

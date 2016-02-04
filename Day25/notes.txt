@@ -1,0 +1,6 @@
+Rows follow f(n) = 0.5*n*(n+1)
+Columns follow f(n) = 0.5*(n^2+n+2)
+
+Use dynamic programming to store values of f(n) as you go. Can use recursive definition then.
+
+f(n) = n + f(n-1)
